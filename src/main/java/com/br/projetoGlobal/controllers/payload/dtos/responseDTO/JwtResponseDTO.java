@@ -1,4 +1,4 @@
-package com.br.projetoGlobal.controllers.payload.responseDTO;
+package com.br.projetoGlobal.controllers.payload.dtos.responseDTO;
 
 import lombok.Data;
 import lombok.Getter;

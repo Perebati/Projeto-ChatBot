@@ -1,5 +1,6 @@
-package com.br.projetoGlobal.controllers.payload.requestDTO;
+package com.br.projetoGlobal.controllers.payload.dtos.requestDTO;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -11,6 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UsuarioPasswordEditDTO {
+public class LoginRequestDTO {
+    @NotBlank
+    private String email;
+
+    @NotBlank
     private String password;
 }

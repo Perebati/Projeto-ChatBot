@@ -11,10 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.br.projetoGlobal.config.security.jwt.JwtUtils;
-import com.br.projetoGlobal.controllers.payload.requestDTO.LoginRequestDTO;
-import com.br.projetoGlobal.controllers.payload.requestDTO.SignupRequestDTO;
-import com.br.projetoGlobal.controllers.payload.responseDTO.JwtResponseDTO;
-import com.br.projetoGlobal.controllers.payload.responseDTO.MessageResponseDTO;
+import com.br.projetoGlobal.controllers.payload.dtos.requestDTO.LoginRequestDTO;
+import com.br.projetoGlobal.controllers.payload.dtos.requestDTO.SignupRequestDTO;
+import com.br.projetoGlobal.controllers.payload.dtos.responseDTO.JwtResponseDTO;
+import com.br.projetoGlobal.controllers.payload.dtos.responseDTO.MessageResponseDTO;
 import com.br.projetoGlobal.models.Role;
 import com.br.projetoGlobal.models.Usuario;
 import com.br.projetoGlobal.models.Enums.RoleEnum;

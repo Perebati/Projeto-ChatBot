@@ -35,10 +35,11 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         return new AuthTokenFilter();
     }
 
-//  @Override
-//  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//    authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//  }
+    // @Override
+    // public void configure(AuthenticationManagerBuilder
+    // authenticationManagerBuilder) throws Exception {
+    // authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    // }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -50,11 +51,11 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-//  @Bean
-//  @Override
-//  public AuthenticationManager authenticationManagerBean() throws Exception {
-//    return super.authenticationManagerBean();
-//  }
+    // @Bean
+    // @Override
+    // public AuthenticationManager authenticationManagerBean() throws Exception {
+    // return super.authenticationManagerBean();
+    // }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -66,17 +67,14 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/**").permitAll()
-                                .anyRequest().authenticated()
-                );
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());
 

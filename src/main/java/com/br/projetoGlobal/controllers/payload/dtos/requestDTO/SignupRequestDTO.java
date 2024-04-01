@@ -1,4 +1,4 @@
-package com.br.projetoGlobal.controllers.payload.requestDTO;
+package com.br.projetoGlobal.controllers.payload.dtos.requestDTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

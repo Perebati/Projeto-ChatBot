@@ -3,12 +3,11 @@ package com.br.projetoGlobal.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.projetoGlobal.controllers.payload.requestDTO.ChatPromptDTO;
+import com.br.projetoGlobal.controllers.payload.dtos.requestDTO.ChatPromptDTO;
 import com.br.projetoGlobal.service.ChatService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;

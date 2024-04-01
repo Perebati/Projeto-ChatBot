@@ -1,4 +1,4 @@
-package com.br.projetoGlobal.controllers.payload.requestDTO;
+package com.br.projetoGlobal.controllers.payload.dtos.responseDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ChatPromptDTO {
+public class MessageResponseDTO {
     private String message;
 }
