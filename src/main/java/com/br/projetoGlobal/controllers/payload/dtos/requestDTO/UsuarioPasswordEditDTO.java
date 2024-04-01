@@ -12,5 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UsuarioPasswordEditDTO {
-    private String password;
+    private String oldPassword;
+    private String newPassword;
 }

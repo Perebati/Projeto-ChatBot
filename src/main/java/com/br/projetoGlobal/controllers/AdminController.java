@@ -47,23 +47,22 @@ public class AdminController {
     @GetMapping("/mod")
     @PreAuthorize("hasRole('MODERATOR')")
     public String moderatorAccess() {
-        return "Moderator Board.";
+        return "Você é um moderador!";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-        return "Admin Board.";
+        return "Você é um admin!";
     }
 
-    /* getAll em usuario */
     @GetMapping("/getAllUsers")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Usuario> getUsers() throws Exception {
         try {
             String username = this.userService.getTokenFromUser();
             if (Objects.isNull(username)) {
-                // TODO
+                throw new Exception("Usuário não encontrado!");
             }
 
             return this.usuarioRepository.findAll();
@@ -73,7 +72,6 @@ public class AdminController {
         }
     }
 
-    /* Delete */
     @SuppressWarnings("null")
     @DeleteMapping("/deleteUser")
     @PreAuthorize("hasRole('ADMIN')")
@@ -81,7 +79,7 @@ public class AdminController {
         try {
             String username = this.userService.getTokenFromUser();
             if (Objects.isNull(username)) {
-                // TODO
+                throw new Exception("Usuário não encontrado!");
             }
 
             this.usuarioRepository.deleteById(userId);
