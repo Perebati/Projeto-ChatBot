@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import com.br.projetoGlobal.controllers.payload.requestDTO.UsuarioNameEditDTO;
 import com.br.projetoGlobal.models.Usuario;
 import com.br.projetoGlobal.repository.UsuarioRepository;
 import com.br.projetoGlobal.service.UserService;
@@ -36,7 +37,7 @@ public class UsuarioController {
         try {
             String username = this.userService.getTokenFromUser();
             if (Objects.isNull(username)) {
-                //to do
+                throw new Exception("Usuário não encontrado!");
             }
 
             Long userId = this.usuarioRepository.findUsuarioByUsername(username);
@@ -55,11 +56,11 @@ public class UsuarioController {
     /* Read */
     @GetMapping("/getUserData")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Usuario getProjects() throws Exception {
+    public Usuario getUserData() throws Exception {
         try {
             String username = this.userService.getTokenFromUser();
             if (Objects.isNull(username)) {
-                //to do
+                throw new Exception("Usuário não encontrado!");
             }
 
             Long userId = this.usuarioRepository.findUsuarioByUsername(username);
@@ -69,4 +70,24 @@ public class UsuarioController {
             throw new Exception(e.getMessage());
         }
     }
+
+        /* Read */
+        @PostMapping("/setUserName")
+        @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+        public Usuario setUserNome(@RequestBody UsuarioNameEditDTO usuarioNameEditDTO) throws Exception {
+            try {
+                String username = this.userService.getTokenFromUser();
+                if (Objects.isNull(username)) {
+                    throw new Exception("Usuário não encontrado!");
+                }
+    
+                Long userId = this.usuarioRepository.findUsuarioByUsername(username);
+                Usuario user = this.usuarioRepository.findUsuarioById(userId);
+                user.setName(usuarioNameEditDTO.getName());
+
+                return this.usuarioRepository.save(user);
+            } catch (Exception e) {
+                throw new Exception(e.getMessage());
+            }
+        }
 }

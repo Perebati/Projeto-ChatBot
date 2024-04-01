@@ -105,6 +105,7 @@ public class AuthController {
         }
 
         usuario.setRoles(roles);
+        usuario.setName(signUpRequestDTO.getName());
         usuarioRepository.save(usuario);
 
         return authenticateUser(new LoginRequestDTO(signUpRequestDTO.getEmail(), signUpRequestDTO.getPassword()));

@@ -40,6 +40,10 @@ public class Usuario {
     private String username;
 
     @NotBlank
+    @Size(max = 130)
+    private String name;
+
+    @NotBlank
     @Size(max = 120)
     private String password;
 
