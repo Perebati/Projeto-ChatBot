@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.projetoGlobal.controllers.payload.dtos.requestDTO.ChatPromptDTO;
 import com.br.projetoGlobal.service.ChatService;
+import com.br.projetoGlobal.service.UserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -20,10 +21,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 public class ChatController {
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    private UserService userService;
     
     @PostMapping("/prompt")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public String chatCommunication(@RequestBody ChatPromptDTO chatPromptDTO) throws Exception {
-        return this.chatService.chatMessaging(chatPromptDTO.getMessage());
+        String username = this.userService.getTokenFromUser();
+        return this.chatService.chatMessaging(chatPromptDTO.getMessage(), username);
     }
 }
