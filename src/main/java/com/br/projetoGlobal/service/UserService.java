@@ -16,6 +16,8 @@ import com.br.projetoGlobal.controllers.payload.dtos.responseDTO.UsuarioResponse
 import com.br.projetoGlobal.models.Usuario;
 import com.br.projetoGlobal.repository.UsuarioRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService {
     @Autowired
@@ -38,6 +40,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public ResponseEntity<?> updatePassword(UsuarioPasswordEditDTO body, String username) throws Exception {
         try {
             if (Objects.isNull(username)) {
@@ -75,7 +78,8 @@ public class UserService {
             throw new Exception(e.getMessage());
         }
     }
-
+    
+    @Transactional
     public UsuarioResponseDTO setUserNome(UsuarioNameEditDTO usuarioNameEditDTO, String username) throws Exception {
             try {
                 if (Objects.isNull(username)) {

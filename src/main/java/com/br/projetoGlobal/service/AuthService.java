@@ -1,6 +1,7 @@
 package com.br.projetoGlobal.service;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +18,23 @@ import com.br.projetoGlobal.controllers.payload.dtos.requestDTO.LoginRequestDTO;
 import com.br.projetoGlobal.controllers.payload.dtos.requestDTO.SignupRequestDTO;
 import com.br.projetoGlobal.controllers.payload.dtos.responseDTO.JwtResponseDTO;
 import com.br.projetoGlobal.controllers.payload.dtos.responseDTO.MessageResponseDTO;
+import com.br.projetoGlobal.models.EmpresaMock;
 import com.br.projetoGlobal.models.Role;
 import com.br.projetoGlobal.models.Usuario;
 import com.br.projetoGlobal.models.Enums.RoleEnum;
+import com.br.projetoGlobal.repository.EmpresaMockRepository;
 import com.br.projetoGlobal.repository.RoleRepository;
 import com.br.projetoGlobal.repository.UsuarioRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService {
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    EmpresaMockRepository empresaMockRepository;
 
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -39,6 +47,7 @@ public class AuthService {
 
     @Autowired
     JwtUtils jwtUtils;
+
     public ResponseEntity<?> authenticateUser(LoginRequestDTO loginRequestDTO) throws Exception {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -53,7 +62,8 @@ public class AuthService {
         }
     }
 
-        public ResponseEntity<?> registerUser(SignupRequestDTO signUpRequestDTO) throws Exception {
+    @Transactional
+    public ResponseEntity<?> registerUser(SignupRequestDTO signUpRequestDTO) throws Exception {
         if (usuarioRepository.existsByEmail(signUpRequestDTO.getEmail())) {
             return ResponseEntity
                     .badRequest()
@@ -63,7 +73,6 @@ public class AuthService {
         Usuario usuario = new Usuario(signUpRequestDTO.getEmail(),
                 signUpRequestDTO.getEmail(),
                 encoder.encode(signUpRequestDTO.getPassword()));
-
 
         Set<String> strRoles = signUpRequestDTO.getRole();
         Set<Role> roles = new HashSet<>();
@@ -97,7 +106,11 @@ public class AuthService {
 
         usuario.setRoles(roles);
         usuario.setName(signUpRequestDTO.getName());
-        usuarioRepository.save(usuario);
+
+        Usuario savedUser = this.usuarioRepository.save(usuario);
+
+        Random random = new Random();
+        this.empresaMockRepository.save(new EmpresaMock(savedUser, random.nextLong(100001 - 1000) + 1000));
 
         return authenticateUser(new LoginRequestDTO(signUpRequestDTO.getEmail(), signUpRequestDTO.getPassword()));
     }

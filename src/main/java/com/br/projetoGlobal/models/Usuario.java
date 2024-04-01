@@ -13,54 +13,51 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.micrometer.common.lang.Nullable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
+@Table(name = "users", uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email")
-        })
-
+})
 public class Usuario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
+        @NotBlank
+        @Size(max = 50)
+        @Email
+        private String email;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    private String username;
+        @NotBlank
+        @Size(max = 50)
+        @Email
+        private String username;
 
-    @NotBlank
-    @Size(max = 130)
-    private String name;
+        @NotBlank
+        @Size(max = 130)
+        private String name;
 
-    @NotBlank
-    @Size(max = 120)
-    private String password;
+        @NotBlank
+        @Size(max = 120)
+        private String password;
 
-    @OneToOne
-    @JoinColumn(name = "empresa_id")
-    private EmpresaMock empresa;
+        @Nullable
+        @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+        private EmpresaMock empresa;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+        @ManyToMany(fetch = FetchType.LAZY)
+        @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+        private Set<Role> roles = new HashSet<>();
 
-    public Usuario(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
+        public Usuario(String username, String email, String password) {
+                this.username = username;
+                this.email = email;
+                this.password = password;
+        }
 }
